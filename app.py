@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 from flask_migrate import Migrate
 import requests
 
@@ -71,6 +71,31 @@ def handle_response():
         db.session.commit()
 
     return redirect('/')
+
+
+@app.route('/api/get_breed')
+def get_breed():
+    breed_id = request.args.get('id')
+    return_breeds = db.session.query(Breeds).filter(Breeds.id == int(breed_id)).first()
+    json_data = {
+        'id': return_breeds.id,
+        'breed': return_breeds.breed,
+        'query': return_breeds.query,
+        'search_count': return_breeds.search_count
+    }
+    return jsonify(json_data)
+
+
+@app.route('/api/get_imgs')
+def get_img():
+    breed_id = request.args.get('id')
+    return_imgs = db.session.query(Images).filter(Images.breed_id == int(breed_id)).all()
+    json_data = [{
+        'id': img.id,
+        'breed_id': img.breed_id,
+        'url': img.url
+    } for img in return_imgs]
+    return jsonify(json_data)
 
 
 if __name__ == '__main__':

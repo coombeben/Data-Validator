@@ -5,6 +5,8 @@ import requests
 
 from consts import *
 from db.models import db, Breeds, Images
+from db.database_setup import populate_database
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
@@ -13,6 +15,11 @@ db.init_app(app)
 migrate = Migrate(app, db)
 
 url = 'https://www.googleapis.com/customsearch/v1'
+
+
+@app.cli.command('create-database')
+def create_database():
+    populate_database()
 
 
 @app.route('/')

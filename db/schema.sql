@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS breeds;
+DROP TABLE IF EXISTS images;
+
+CREATE TABLE IF NOT EXISTS breeds (
+    id INTEGER PRIMARY KEY NOT NULL,
+    breed VARCHAR(64) NOT NULL,
+    query VARCHAR(64) NOT NULL,
+    search_count INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS images (
+    id INTEGER PRIMARY KEY NOT NULL,
+    breed_id INTEGER NOT NULL,
+    url VARCHAR(1024),
+    FOREIGN KEY(breed_id) REFERENCES breeds(id)
+);

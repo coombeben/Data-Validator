@@ -5,9 +5,11 @@
 }
 body {
     background-color: #eef5ff;
+    font-family: Raleway, serif;
 }
 .wrapper {
     width: 100%;
+    height: 100%;
     position: absolute;
     transform: translate(-50%, -50%);
     top: 50%;
@@ -34,10 +36,12 @@ input[type="checkbox"] {
 }
 input[type="checkbox"]:not(:checked) + label > img {
     filter: grayscale(100%);
-    width: 90%;
+    max-width: 230px;
+    max-height: 230px;
 }
 .container img {
-    width: 100%;
+    max-width: 256px;
+    max-height: 256px;
     position: absolute;
     margin: auto;
     left: 0;
@@ -45,6 +49,19 @@ input[type="checkbox"]:not(:checked) + label > img {
     top: 0;
     bottom: 0;
     cursor: pointer;
+}
+input[type="submit"] {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition-duration: 0.4s;
+    width: 100%;
+    height: 5%;
+    font-family: Raleway, serif;
+}
+input[type="submit"]:hover {
+    background-color: white;
 }
 @media screen and (min-width: 1350px) {
     .wrapper {

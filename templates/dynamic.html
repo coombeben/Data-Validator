@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>App</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <title>Dev</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
     <style>
         * {
             padding: 0;
@@ -13,9 +12,11 @@
         }
         body {
             background-color: #eef5ff;
+            font-family: Raleway, serif;
         }
         .wrapper {
             width: 100%;
+            height: 100%;
             position: absolute;
             transform: translate(-50%, -50%);
             top: 50%;
@@ -24,6 +25,19 @@
             grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
             place-items: center;
             gap: 14px;
+        }
+        input[type="submit"] {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition-duration: 0.4s;
+            width: 100%;
+            height: 5%;
+            font-family: Raleway, serif;
+        }
+        input[type="submit"]:hover {
+            background-color: white;
         }
         .container {
             height: 256px;
@@ -38,15 +52,16 @@
             -webkit-appearance: none;
             position: relative;
             cursor: pointer;
-            filter: grayscale(100%);
-            width: 90%;
-        }
-        input[type="checkbox"]:checked + label > img {
-            filter: none;
             width: 100%;
+        }
+        input[type="checkbox"]:not(:checked) + label > img {
+            filter: grayscale(100%);
+            max-width: 230px;
+            max-height: 230px;
         }
         .container img {
-            width: 100%;
+            max-width: 256px;
+            max-height: 256px;
             position: absolute;
             margin: auto;
             left: 0;
@@ -64,58 +79,53 @@
 </head>
 <body>
 <form action="http://localhost:5000/handle_response" method="post">
+    <div class="formatter">
     <div class="wrapper">
         <div class="container">
-            <input type="checkbox" id="dog-1" name="a">
+            <input type="checkbox" id="dog-1" name="a" checked="checked">
             <label for="dog-1">
                 <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*"/>
             </label>
         </div>
         <div class="container">
-            <input type="checkbox" id="dog-2" name="b">
+            <input type="checkbox" id="dog-2" name="b" checked="checked">
             <label for="dog-2">
-                <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*"/>
+                <img src="https://img.freepik.com/free-photo/vertical-portrait-blue-weimaraner-type-dog-gray_181624-5018.jpg?w=2000"/>
             </label>
         </div>
         <div class="container">
-            <input type="checkbox" id="dog-3" name="c">
+            <input type="checkbox" id="dog-3" name="c" checked="checked">
             <label for="dog-3">
                 <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*"/>
             </label>
         </div>
         <div class="container">
-            <input type="checkbox" id="dog-4" name="d">
+            <input type="checkbox" id="dog-4" name="d" checked="checked">
             <label for="dog-4">
                 <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*"/>
             </label>
         </div>
         <div class="container">
-            <input type="checkbox" id="dog-5" name="e">
+            <input type="checkbox" id="dog-5" name="e" checked="checked">
             <label for="dog-5">
                 <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*"/>
             </label>
         </div>
         <div class="container">
-            <input type="checkbox" id="dog-6" name="f">
+            <input type="checkbox" id="dog-6" name="f" checked="checked">
             <label for="dog-6">
                 <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*"/>
             </label>
         </div>
         <div class="container">
-            <input type="checkbox" id="dog-7" name="g">
+            <input type="checkbox" id="dog-7" name="g" checked="checked">
             <label for="dog-7">
                 <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*"/>
             </label>
         </div>
     </div>
-    <input type="text" name="a_url" hidden value="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*">
-    <input type="text" name="b_url" hidden value="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*">
-    <input type="text" name="c_url" hidden value="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*">
-    <input type="text" name="d_url" hidden value="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*">
-    <input type="text" name="e_url" hidden value="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*">
-    <input type="text" name="f_url" hidden value="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*">
-    <input type="text" name="g_url" hidden value="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*">
-    <input type="submit" value="submit">
+    <input type="submit" value="Submit">
+    </div>
 </form>
 </body>
 </html>

@@ -1,3 +1,3 @@
-import os
+from os.path import dirname
 
-INSTANCE_PATH = os.path.dirname(__file__)
+INSTANCE_PATH = dirname(__file__)

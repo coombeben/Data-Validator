@@ -3,14 +3,13 @@ from flask import Flask, render_template, request, redirect
 from flask_migrate import Migrate
 import requests
 
-from consts import *
+from config import DevelopmentConfig, ProductionConfig
 from db.models import db, Breeds, Images
 from db.database_setup import populate_database
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.path.join('sqlite:///' + INSTANCE_PATH, 'db', 'dogs.db')
+app.config.from_object(ProductionConfig())
 db.init_app(app)
 migrate = Migrate(app, db)
 
@@ -40,7 +39,9 @@ def main():
         'q': query,
         'searchType': 'image',
         'imgType': 'photo',
-        'fields': 'items(link)'
+        'fields': 'items(link)',
+        'filter': '1',
+        'start': '1'
     }
     response = requests.get(url, params=payload)
 

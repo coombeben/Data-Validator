@@ -23,7 +23,7 @@ def create_database():
 
 @app.route('/')
 def main():
-    stmt = db.text("""SELECT id, breed, query FROM breeds WHERE id IN (
+    stmt = db.text("""SELECT id, breed, query, search_count FROM breeds WHERE id IN (
         SELECT id
         FROM breeds
         WHERE search_count = (SELECT min(search_count) FROM breeds)
@@ -31,7 +31,7 @@ def main():
         LIMIT 1
     );""")
     result = db.session.execute(stmt)
-    (breed_id, breed_name, query) = result.fetchone()
+    (breed_id, breed_name, query, search_count) = result.fetchone()
 
     payload = {
         'cx': '3745ad675cafd4f33',
@@ -41,7 +41,7 @@ def main():
         'imgType': 'photo',
         'fields': 'items(link)',
         'filter': '1',
-        'start': '1'
+        'start': 10 * search_count + 1
     }
     response = requests.get(url, params=payload)
 

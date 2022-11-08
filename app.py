@@ -62,13 +62,14 @@ def handle_response():
     # Increase search_count counter
     breed = db.session.query(Breeds).filter(Breeds.id == breed_id).first_or_404()
     breed.search_count = breed.search_count + 1
-    # db.session.commit()
 
     # Add image urls to database
     for box in [x for x in data if x.startswith('box_')]:
         img = Images(breed_id, data[box])
         db.session.add(img)
-        # db.session.commit()
+
+    # Commit changes
+    db.session.commit()
 
     return redirect('/')
 

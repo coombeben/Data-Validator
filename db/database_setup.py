@@ -5,11 +5,11 @@ import csv
 from consts import INSTANCE_PATH
 
 
-def populate_database(db_uri):
+def populate_database(db_path):
     """Initialises the database and populates with the initial dogs"""
     db_fldr = pjoin(INSTANCE_PATH, 'db')
 
-    con = sqlite3.connect(db_uri)
+    con = sqlite3.connect(db_path)
     cur = con.cursor()
     with open(pjoin(db_fldr, 'schema.sql'), 'r') as sql_file:
         init_sql = sql_file.read()

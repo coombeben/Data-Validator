@@ -18,7 +18,7 @@ url = 'https://www.googleapis.com/customsearch/v1'
 
 @app.cli.command('create-database')
 def create_database():
-    populate_database(app.config.get('SQLALCHEMY_DATABASE_URI'))
+    populate_database(app.config.get('DATABASE_PATH'))
 
 
 @app.route('/')

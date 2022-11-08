@@ -9,8 +9,8 @@ class Config:
 class ProductionConfig(Config):
     DEBUG = True
     SECRET_KEY = os.getenv('FLASK_SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////home/sites/wwwroot/db/dogs.db'
-    DATABASE_PATH = os.path.join('/home', 'sites', 'wwwroot', 'db', 'dogs.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////home/site/wwwroot/db/dogs.db'
+    DATABASE_PATH = os.path.join('/home', 'site', 'wwwroot', 'db', 'dogs.db')
 
 
 class DevelopmentConfig(Config):

@@ -1,5 +1,12 @@
 import os
+import urllib.parse
+
 from consts import INSTANCE_PATH
+
+connection_string = 'Driver={ODBC Driver 13 for SQL Server};Server=tcp:dogidentifier.database.windows.net,1433;' \
+                    f'Database=dogs;Uid=coombeben;Pwd={os.getenv("AZURE_SQL_PASSWORD")};Encrypt=yes;' \
+                    f'TrustServerCertificate=no;Connection Timeout=30;'
+params = urllib.parse.quote_plus(connection_string)
 
 
 class Config:
@@ -9,8 +16,8 @@ class Config:
 class ProductionConfig(Config):
     DEBUG = True
     SECRET_KEY = os.getenv('FLASK_SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////home/site/wwwroot/db/dogs.db'
-    DATABASE_PATH = os.path.join('/home', 'site', 'wwwroot', 'db', 'dogs.db')
+    SQLALCHEMY_DATABASE_URI = f'mssql+pyodbc:///?odbc_connect={params}'
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
 
 class DevelopmentConfig(Config):

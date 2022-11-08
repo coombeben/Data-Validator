@@ -1,24 +1,51 @@
 import os
+import csv
 from flask import Flask, render_template, request, redirect, jsonify
-from flask_migrate import Migrate
+# from flask_migrate import Migrate
 import requests
 
 from config import DevelopmentConfig, ProductionConfig
+from consts import INSTANCE_PATH
 from db.models import db, Breeds, Images
-from db.database_setup import populate_database
+# from db.database_setup import populate_database
 
 
 app = Flask(__name__)
 app.config.from_object(ProductionConfig())
 db.init_app(app)
-migrate = Migrate(app, db)
+# migrate = Migrate(app, db)
 
 url = 'https://www.googleapis.com/customsearch/v1'
 
 
 @app.cli.command('create-database')
 def create_database():
-    populate_database(app.config.get('DATABASE_PATH'))
+    db_fldr = os.path.join(INSTANCE_PATH, 'db')
+    # with open(os.path.join(db_fldr, 'schema.sql'), 'r') as sql_file:
+    #     init_sql = sql_file.read()
+    #
+    # for command in init_sql.split(';')[:-1]:
+    #     print(command)
+    #     db.session.execute(db.text(command))
+    #
+    # db.session.commit()
+    breed_count = db.session.query(Breeds).count()
+    if breed_count == 0:
+        print('Initialising database')
+        with open(os.path.join(db_fldr, 'breeds.csv'), 'r', encoding='utf-8-sig') as f:
+            reader = csv.reader(f)
+            skip_header = True
+            for row in reader:
+                if skip_header:
+                    skip_header = False
+                else:
+                    breed = Breeds(row[0], row[1], 0)
+                    db.session.add(breed)
+
+        db.session.commit()
+        print('breeds table has been populated')
+    else:
+        print(f'breeds table already populated with {breed_count} rows')
 
 
 @app.route('/')

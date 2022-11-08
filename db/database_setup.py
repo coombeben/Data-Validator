@@ -15,8 +15,9 @@ def populate_database(db_path):
         init_sql = sql_file.read()
 
     for command in init_sql.split(';')[:-1]:
+        print(command)
         cur.execute(command)
-    con.commit()
+        con.commit()
 
     with open(pjoin(db_fldr, 'breeds.csv'), 'r', encoding='utf-8-sig') as f:
         reader = csv.reader(f)
@@ -30,3 +31,4 @@ def populate_database(db_path):
 
     con.commit()
     con.close()
+    print('Done')

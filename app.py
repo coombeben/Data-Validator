@@ -51,11 +51,10 @@ def create_database():
 @app.route('/')
 def main():
     stmt = db.text("""SELECT id, breed, query, search_count FROM breeds WHERE id IN (
-        SELECT id
+        SELECT top 1 (id)
         FROM breeds
         WHERE search_count = (SELECT min(search_count) FROM breeds)
-        ORDER BY random()
-        LIMIT 1
+        ORDER BY NEWID()
     );""")
     result = db.session.execute(stmt)
     (breed_id, breed_name, query, search_count) = result.fetchone()

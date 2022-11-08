@@ -9,7 +9,7 @@ from db.database_setup import populate_database
 
 
 app = Flask(__name__)
-app.config.from_object(DevelopmentConfig())
+app.config.from_object(ProductionConfig())
 db.init_app(app)
 migrate = Migrate(app, db)
 

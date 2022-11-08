@@ -1,15 +1,15 @@
-from os.path import join as pjoin
+from os.path import join as pjoin, dirname
 import sqlite3
 import csv
 
 from consts import INSTANCE_PATH
 
 
-def populate_database():
+def populate_database(db_uri):
     """Initialises the database and populates with the initial dogs"""
     db_fldr = pjoin(INSTANCE_PATH, 'db')
 
-    con = sqlite3.connect(pjoin(db_fldr, 'dogs.db'))
+    con = sqlite3.connect(db_uri)
     cur = con.cursor()
     with open(pjoin(db_fldr, 'schema.sql'), 'r') as sql_file:
         init_sql = sql_file.read()

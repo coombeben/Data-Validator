@@ -9,7 +9,7 @@ from db.database_setup import populate_database
 
 
 app = Flask(__name__)
-app.config.from_object(ProductionConfig())
+app.config.from_object(DevelopmentConfig())
 db.init_app(app)
 migrate = Migrate(app, db)
 
@@ -62,13 +62,13 @@ def handle_response():
     # Increase search_count counter
     breed = db.session.query(Breeds).filter(Breeds.id == breed_id).first_or_404()
     breed.search_count = breed.search_count + 1
-    db.session.commit()
+    # db.session.commit()
 
     # Add image urls to database
     for box in [x for x in data if x.startswith('box_')]:
         img = Images(breed_id, data[box])
         db.session.add(img)
-        db.session.commit()
+        # db.session.commit()
 
     return redirect('/')
 

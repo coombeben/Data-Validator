@@ -1,19 +1,16 @@
 import os
 import csv
 from flask import Flask, render_template, request, redirect, jsonify
-# from flask_migrate import Migrate
 import requests
 
 from config import DevelopmentConfig, ProductionConfig
 from consts import INSTANCE_PATH
 from db.models import db, Breeds, Images
-# from db.database_setup import populate_database
 
 
 app = Flask(__name__)
 app.config.from_object(ProductionConfig())
 db.init_app(app)
-# migrate = Migrate(app, db)
 
 url = 'https://www.googleapis.com/customsearch/v1'
 
@@ -21,14 +18,7 @@ url = 'https://www.googleapis.com/customsearch/v1'
 @app.cli.command('create-database')
 def create_database():
     db_fldr = os.path.join(INSTANCE_PATH, 'db')
-    # with open(os.path.join(db_fldr, 'schema.sql'), 'r') as sql_file:
-    #     init_sql = sql_file.read()
-    #
-    # for command in init_sql.split(';')[:-1]:
-    #     print(command)
-    #     db.session.execute(db.text(command))
-    #
-    # db.session.commit()
+
     breed_count = db.session.query(Breeds).count()
     if breed_count == 0:
         print('Initialising database')
@@ -50,6 +40,7 @@ def create_database():
 
 @app.route('/')
 def main():
+    # Get a random dog which has minimal search count
     stmt = db.text("""SELECT id, breed, query, search_count FROM breeds WHERE id IN (
         SELECT top 1 (id)
         FROM breeds
@@ -59,6 +50,7 @@ def main():
     result = db.session.execute(stmt)
     (breed_id, breed_name, query, search_count) = result.fetchone()
 
+    # Submit an API request for that dog
     payload = {
         'cx': '3745ad675cafd4f33',
         'key': 'AIzaSyCqnp2MjliHaH2BcCEHKiQl20CS04uccSE',
@@ -74,6 +66,7 @@ def main():
     if response.status_code != 200:
         render_template('error.html', err_msg=response.text)
 
+    # Render a template using the data from the API
     data = response.json()
     images = [x['link'] for x in data['items']]
 
@@ -98,31 +91,6 @@ def handle_response():
     db.session.commit()
 
     return redirect('/')
-
-
-@app.route('/api/get_breed')
-def get_breed():
-    breed_id = request.args.get('id')
-    return_breeds = db.session.query(Breeds).filter(Breeds.id == int(breed_id)).first()
-    json_data = {
-        'id': return_breeds.id,
-        'breed': return_breeds.breed,
-        'query': return_breeds.query,
-        'search_count': return_breeds.search_count
-    }
-    return jsonify(json_data)
-
-
-@app.route('/api/get_imgs')
-def get_img():
-    breed_id = request.args.get('id')
-    return_imgs = db.session.query(Images).filter(Images.breed_id == int(breed_id)).all()
-    json_data = [{
-        'id': img.id,
-        'breed_id': img.breed_id,
-        'url': img.url
-    } for img in return_imgs]
-    return jsonify(json_data)
 
 
 if __name__ == '__main__':

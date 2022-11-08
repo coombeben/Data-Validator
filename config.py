@@ -7,8 +7,9 @@ class Config:
 
 
 class ProductionConfig(Config):
+    DEBUG = True
     SECRET_KEY = os.getenv('FLASK_SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = os.path.join('sqlite:////db_share', 'dogs.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////db_share/dogs.db'
     DATABASE_PATH = os.path.join('/db_share', 'dogs.db')
 
 

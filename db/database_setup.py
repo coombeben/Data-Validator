@@ -14,7 +14,9 @@ def populate_database(db_path):
     with open(pjoin(db_fldr, 'schema.sql'), 'r') as sql_file:
         init_sql = sql_file.read()
 
-    cur.execute(init_sql)
+    for command in init_sql.split(';')[:-1]:
+        cur.execute(command)
+    con.commit()
 
     with open(pjoin(db_fldr, 'breeds.csv'), 'r', encoding='utf-8-sig') as f:
         reader = csv.reader(f)

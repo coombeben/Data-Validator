@@ -3,7 +3,7 @@ import urllib.parse
 
 from consts import INSTANCE_PATH
 
-connection_string = 'Driver={ODBC Driver 13 for SQL Server};Server=tcp:dogidentifier.database.windows.net,1433;' \
+connection_string = 'Driver={ODBC Driver 18 for SQL Server};Server=tcp:dogidentifier.database.windows.net,1433;' \
                     f'Database=dogs;Uid=coombeben;Pwd={os.getenv("AZURE_SQL_PASSWORD")};Encrypt=yes;' \
                     f'TrustServerCertificate=no;Connection Timeout=30;'
 params = urllib.parse.quote_plus(connection_string)

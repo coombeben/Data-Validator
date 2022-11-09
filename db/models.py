@@ -19,7 +19,9 @@ class Images(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     breed_id = db.Column(db.Integer, db.ForeignKey('breeds.id'), nullable=False)
     url = db.Column(db.String(1024))
+    downloaded = db.Column(db.Boolean, nullable=False)
 
-    def __init__(self, breed_id, url):
+    def __init__(self, breed_id, url, downloaded=False):
         self.breed_id = breed_id
         self.url = url
+        self.downloaded = downloaded

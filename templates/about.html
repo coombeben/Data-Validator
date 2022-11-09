@@ -34,41 +34,54 @@ For this project, the objective is to be able to identify 485 different dog bree
 <p>As a general rule, a 'good' photo is one that clearly shows a single dog and could've been taken directly with a camera with no post-processing.</p>
 <table>
     <tr>
-        <td><h4>Bad photos</h4></td>
-        <td><h4>Explanation</h4></td>
-        <td><h4>Good photos</h4></td>
-        <td><h4>Explanation</h4></td>
+        <th><h4>Bad photos</h4></th>
+        <th><h4>Explanation</h4></th>
+        <th><h4>Good photos</h4></th>
+        <th><h4>Explanation</h4></th>
     </tr>
     <tr>
         <td class="tbl-img">
             <img src="{{ url_for('static', filename='images/bad-1.jpg') }}" alt="Bad example 1">
-            <i class="fa-solid fa-circle-xmark"></i>
+            <i class="fa-solid fa-xmark" style="color: red"></i>
         </td>
         <td>More than one dog visible</td>
         <td class="tbl-img">
             <img src="{{ url_for('static', filename='images/good-1.jpg') }}" alt="Good example 1">
-            <i class="fa-solid fa-circle-check"></i>
+            <i class="fa-solid fa-check" style="color: green"></i>
         </td>
         <td>Dog clearly visible</td>
     </tr>
     <tr>
         <td class="tbl-img">
             <img src="{{ url_for('static', filename='images/bad-2.jpg') }}" alt="Bad example 2">
-            <i class="fa-solid fa-circle-xmark"></i>
+            <i class="fa-solid fa-xmark" style="color: red"></i>
         </td>
         <td>Dog not clearly visible</td>
         <td class="tbl-img">
             <img src="{{ url_for('static', filename='images/good-2.jpg') }}" alt="Good example 2">
-            <i class="fa-solid fa-circle-check"></i>
+            <i class="fa-solid fa-check" style="color: green"></i>
         </td>
         <td>Despite the artificial background, dog is still visible</td>
     </tr>
     <tr>
         <td class="tbl-img">
             <img src="{{ url_for('static', filename='images/bad-3.png') }}" alt="Bad example 3">
-            <i class="fa-solid fa-circle-xmark"></i>
+            <i class="fa-solid fa-xmark" style="color: red"></i>
         </td>
         <td>Watermark on image</td>
+        <td class="tbl-img">
+            <img src="{{ url_for('static', filename='images/good-3.jpg') }}" alt="Good example 3">
+            <i class="fa-solid fa-check" style="color: green"></i>
+        </td>
+        <td>Some amount of the body is visible</td>
+    </tr>
+    <tr>
+        <td class="tbl-img">
+            <img src="{{ url_for('static', filename='images/bad-4.png') }}" alt="Bad example 4">
+            <i class="fa-solid fa-xmark" style="color: red"></i>
+        </td>
+        <td>Only the head is visible</td>
+        </td>
     </tr>
 </table>
 </body>

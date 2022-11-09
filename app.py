@@ -5,6 +5,7 @@ import requests
 
 from config import DevelopmentConfig, ProductionConfig
 from consts import INSTANCE_PATH
+from colour import ColourRGB, gradient
 from db.models import db, Breeds, Images
 
 
@@ -52,8 +53,8 @@ def main():
 
     # Submit an API request for that dog
     payload = {
-        'cx': '3745ad675cafd4f33',
-        'key': 'AIzaSyCqnp2MjliHaH2BcCEHKiQl20CS04uccSE',
+        'cx': os.getenv('GOOGLE_CX_KEY'),
+        'key': os.getenv('GOOGLE_API_KEY'),
         'q': query,
         'searchType': 'image',
         'imgType': 'photo',
@@ -91,6 +92,22 @@ def handle_response():
     db.session.commit()
 
     return redirect('/')
+
+
+@app.route('/progress')
+def progress():
+    img_count = db.session.query(Images).count()
+    prop = max(min(img_count / 95000, 1), 0)
+
+    target_colour = gradient(prop, ColourRGB(255, 0, 0), ColourRGB(0, 255, 0))
+    colour_hex = target_colour.hex()
+
+    return render_template('progress.html', count=img_count, percent=f'{prop*100:.2f}%', colour=colour_hex)
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 
 if __name__ == '__main__':

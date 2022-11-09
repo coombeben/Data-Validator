@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Progress</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/default.css') }}">
+</head>
+<body>
+<!--Navigation-->
+<ul class="nav-bar">
+    <li class="nav-item"><a href="{{ url_for('main') }}">Identifier</a></li>
+    <li class="nav-item nav-active"><a href="{{ url_for('progress') }}">Progress</a></li>
+    <li class="nav-item"><a href="{{ url_for('about') }}">About</a></li>
+</ul>
+<!--Page Content-->
+<h1>Project Progress</h1>
+<p>So far, {{ count }} dog photos have been classified, out of a target 95,000</p>
+<div class="bar-border">
+    <div class="progress-bar" style="background: {{ colour }}; width: {{ percent }}">{{ percent }}</div>
+</div>
+</body>
+</html>

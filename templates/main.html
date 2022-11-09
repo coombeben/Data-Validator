@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Dog Identifier</title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/default.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 </head>
 <body>
+<!--Navigation-->
+<ul class="nav-bar">
+    <li class="nav-item nav-active"><a href="{{ url_for('main') }}">Identifier</a></li>
+    <li class="nav-item"><a href="{{ url_for('progress') }}">Progress</a></li>
+    <li class="nav-item"><a href="{{ url_for('about') }}">About</a></li>
+</ul>
+<!--Page Content-->
 <h1>{{ breed_name }}</h1>
 <form action="{{ url_for('handle_response') }}" method="post">
     <div class="wrapper">

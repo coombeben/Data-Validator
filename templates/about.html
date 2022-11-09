@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/default.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+<body>
+<!--Navigation-->
+<ul class="nav-bar">
+    <li class="nav-item"><a href="{{ url_for('main') }}">Identifier</a></li>
+    <li class="nav-item"><a href="{{ url_for('progress') }}">Progress</a></li>
+    <li class="nav-item nav-active"><a href="{{ url_for('about') }}">About</a></li>
+</ul>
+<!--Page Content-->
+<h1>About</h1>
+<p>Welcome! Thank you for visiting my website and helping me out with my dissertation.</p>
+<h2>The Project</h2>
+<p>For my dissertation project, I am trying to make an app which can take a photo of any dog and identify its breed using matching learning
+The upside of this approach is that it is much simpler than an advanced computer vision algorithm, the downside is that it requires vast amounts of training data.
+For this project, the objective is to be able to identify 485 different dog breeds, and ideally I need at least 200 photos of each breed in order to train the program.
+485 * 200 = 97,000 so as you can see there's a lot of data to gather!</p>
+<p>That's where you come in!</p>
+<h2>How to use</h2>
+<ol type="1">
+    <li>Go to the <a href="main.html">identifier</a> page</li>
+    <li>You'll be presented with a breed name and 10 photos of that dog. Click/tap all the ones which aren't a clear photo of that dog</li>
+    <li>Once you're happy with your selections, press the 'Submit' button at the bottom of the page and your response will be saved</li>
+    <li>Repeat as many times as you like - every little helps!</li>
+</ol>
+<p>If you would like to view the project progress, visit the <a href="progress.html">progress</a> page.</p>
+<h1>Examples</h1>
+<p>As a general rule, a 'good' photo is one that clearly shows a single dog and could've been taken directly with a camera with no post-processing.</p>
+<table>
+    <tr>
+        <td><h4>Bad photos</h4></td>
+        <td><h4>Explanation</h4></td>
+        <td><h4>Good photos</h4></td>
+        <td><h4>Explanation</h4></td>
+    </tr>
+    <tr>
+        <td class="tbl-img">
+            <img src="{{ url_for('static', filename='images/bad-1.jpg') }}" alt="Bad example 1">
+            <i class="fa-solid fa-circle-xmark"></i>
+        </td>
+        <td>More than one dog visible</td>
+        <td class="tbl-img">
+            <img src="{{ url_for('static', filename='images/good-1.jpg') }}" alt="Good example 1">
+            <i class="fa-solid fa-circle-check"></i>
+        </td>
+        <td>Dog clearly visible</td>
+    </tr>
+    <tr>
+        <td class="tbl-img">
+            <img src="{{ url_for('static', filename='images/bad-2.jpg') }}" alt="Bad example 2">
+            <i class="fa-solid fa-circle-xmark"></i>
+        </td>
+        <td>Dog not clearly visible</td>
+        <td class="tbl-img">
+            <img src="{{ url_for('static', filename='images/good-2.jpg') }}" alt="Good example 2">
+            <i class="fa-solid fa-circle-check"></i>
+        </td>
+        <td>Despite the artificial background, dog is still visible</td>
+    </tr>
+    <tr>
+        <td class="tbl-img">
+            <img src="{{ url_for('static', filename='images/bad-3.png') }}" alt="Bad example 3">
+            <i class="fa-solid fa-circle-xmark"></i>
+        </td>
+        <td>Watermark on image</td>
+    </tr>
+</table>
+</body>
+</html>

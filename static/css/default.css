@@ -19,7 +19,7 @@ body {
     padding: 14px 16px;
     text-decoration: none;
 }
-.nav-active a:hover {
+.nav-item a:hover {
     background-color: black;
 }
 .nav-active {

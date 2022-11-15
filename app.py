@@ -1,6 +1,6 @@
 import os
 import csv
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect
 import requests
 
 from config import DevelopmentConfig, ProductionConfig
@@ -59,6 +59,7 @@ def main():
         'searchType': 'image',
         'imgType': 'photo',
         'fields': 'items(link)',
+        'hl': 'en',
         'filter': '1',
         'start': 10 * search_count + 1
     }
@@ -78,6 +79,12 @@ def main():
 def handle_response():
     data = request.form.to_dict()
     breed_id = data['breed_id']
+
+    # Check input
+    try:
+        int(breed_id)
+    except ValueError:
+        return ''
 
     # Increase search_count counter
     breed = db.session.query(Breeds).filter(Breeds.id == breed_id).first_or_404()

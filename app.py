@@ -103,8 +103,8 @@ def handle_response():
 
 @app.route('/progress')
 def progress():
-    img_count = db.session.query(Images).count()
-    prop = max(min((img_count + 20105) / 79800, 1), 0)
+    img_count = db.session.query(Images).count() + 20105
+    prop = max(min(img_count / 79800, 1), 0)
 
     target_colour = gradient(prop, ColourRGB(255, 0, 0), ColourRGB(0, 255, 0))
     colour_hex = target_colour.hex()

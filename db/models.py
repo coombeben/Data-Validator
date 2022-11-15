@@ -8,6 +8,7 @@ class Breeds(db.Model):
     breed = db.Column(db.String(64), nullable=False)
     query = db.Column(db.String(64), nullable=False)
     search_count = db.Column(db.Integer, nullable=False)
+    offset = db.Column(db.Integer, nullable=False)
 
     def __init__(self, breed, query, search_count=0):
         self.breed = breed

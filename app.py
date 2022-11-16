@@ -61,7 +61,9 @@ def main():
         'fields': 'items(link)',
         'hl': 'en',
         'filter': '1',
-        'start': 10 * search_count + 1
+        'start': 10 * search_count + 1,
+        'siteSearch': 'c8.alamy.com',
+        'siteSearchFilter': 'e'
     }
     response = requests.get(url, params=payload)
 

@@ -1,12 +1,11 @@
 import os
 import csv
 from flask import Flask, render_template, request, redirect
-import requests
 
 from config import DevelopmentConfig, ProductionConfig
 from consts import INSTANCE_PATH
 from colour import ColourRGB, gradient
-from db.models import db, Breeds, Images
+from db.models import db, Breeds, Images, Staging
 
 
 app = Flask(__name__)
@@ -41,52 +40,36 @@ def create_database():
 
 @app.route('/')
 def main():
-    # Get a random dog which has minimal search count
-    stmt = db.text("""SELECT id, breed, query, search_count FROM breeds WHERE id IN (
-        SELECT top 1 (id)
-        FROM breeds
-        WHERE (search_count + offset) = (SELECT min(search_count + offset) FROM breeds)
-        ORDER BY NEWID()
-    );""")
+    stmt = db.text("""SELECT TOP 10 b.id, b.breed, s.staging_id, s.url
+        FROM breeds b
+        LEFT JOIN staging s ON b.id = s.breed_id
+        WHERE s.breed_id = (
+            SELECT top 1 (id)
+            FROM breeds
+            WHERE (search_count + offset) = (SELECT min(search_count + offset) FROM breeds)
+            ORDER BY NEWID()
+        );""")
     result = db.session.execute(stmt)
-    (breed_id, breed_name, query, search_count) = result.fetchone()
 
-    # Submit an API request for that dog
-    payload = {
-        'cx': os.getenv('GOOGLE_CX_KEY'),
-        'key': os.getenv('GOOGLE_API_KEY'),
-        'q': query,
-        'searchType': 'image',
-        'imgType': 'photo',
-        'fields': 'items(link)',
-        'hl': 'en',
-        'filter': '1',
-        'start': 10 * search_count + 1,
-        'siteSearch': 'c8.alamy.com',
-        'siteSearchFilter': 'e'
-    }
-    response = requests.get(url, params=payload)
+    data = result.fetchall()
 
-    if response.status_code != 200:
-        render_template('error.html', err_msg=response.text)
+    if data is None:
+        return 'No images available at this time'
 
-    # Render a template using the data from the API
-    data = response.json()
-    images = [x['link'] for x in data['items']]
+    breed_id = data[0][0]
+    breed_name = data[0][1]
+    img_ids = [x[2] for x in data]
+    img_urls = [x[3] for x in data]
 
-    return render_template('main.html', breed_name=breed_name, images=images, breed_id=breed_id)
+    return render_template('main.html', breed_name=breed_name, breed_id=breed_id, img_urls=img_urls, img_ids=img_ids)
 
 
 @app.route('/handle_response', methods=['POST'])
 def handle_response():
+    # Read input data
     data = request.form.to_dict()
     breed_id = data['breed_id']
-
-    # Check input
-    try:
-        int(breed_id)
-    except ValueError:
-        return ''
+    img_ids = data['img_ids'][1:-1].split(', ')
 
     # Increase search_count counter
     breed = db.session.query(Breeds).filter(Breeds.id == breed_id).first_or_404()
@@ -96,6 +79,11 @@ def handle_response():
     for box in [x for x in data if x.startswith('box_')]:
         img = Images(breed_id, data[box])
         db.session.add(img)
+        # TODO: db.session.add_all()
+
+    # Delete from staging
+    for staging_id in img_ids:
+        db.session.query(Staging).where(Staging.staging_id == staging_id).delete()
 
     # Commit changes
     db.session.commit()

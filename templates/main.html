@@ -17,7 +17,7 @@
 <h1>{{ breed_name }}</h1>
 <form action="{{ url_for('handle_response') }}" method="post">
     <div class="wrapper">
-    {% for img_url in images %}
+    {% for img_url in img_urls %}
         <div class="container">
             <input type="checkbox" id="box-{{ loop.index }}" name="box_{{ loop.index }}" value="{{ img_url }}" checked="checked"/>
             <label for="box-{{ loop.index }}">
@@ -26,6 +26,7 @@
         </div>
     {% endfor %}
     </div>
+    <input type="text" value="{{ img_ids }}" name="img_ids" hidden>
     <input type="text" value="{{ breed_id }}" name="breed_id" hidden>
     <input type="submit" value="Submit">
 </form>

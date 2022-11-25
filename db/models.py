@@ -26,3 +26,13 @@ class Images(db.Model):
         self.breed_id = breed_id
         self.url = url
         self.downloaded = downloaded
+
+
+class Staging(db.Model):
+    staging_id = db.Column(db.Integer, primary_key=True)
+    breed_id = db.Column(db.Integer, db.ForeignKey('breeds.id'), nullable=False)
+    url = db.Column(db.String(1024))
+
+    def __init__(self, breed_id, url):
+        self.breed_id = breed_id
+        self.url = url

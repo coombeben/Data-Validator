@@ -44,9 +44,8 @@ def main():
         FROM breeds b
         LEFT JOIN staging s ON b.id = s.breed_id
         WHERE s.breed_id = (
-            SELECT top 1 (id)
-            FROM breeds
-            WHERE (search_count + offset) = (SELECT min(search_count + offset) FROM breeds)
+            SELECT top 1 (breed_id)
+            FROM staging
             ORDER BY NEWID()
         );""")
     result = db.session.execute(stmt)

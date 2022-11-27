@@ -44,8 +44,9 @@ def main():
         FROM breeds b
         LEFT JOIN staging s ON b.id = s.breed_id
         WHERE s.breed_id = (
-            SELECT top 1 (breed_id)
-            FROM staging
+            SELECT TOP 1 id
+            FROM breeds
+            WHERE breeds.img_count < 300
             ORDER BY NEWID()
         );""")
     result = db.session.execute(stmt)
@@ -69,16 +70,17 @@ def handle_response():
     data = request.form.to_dict()
     breed_id = data['breed_id']
     img_ids = data['img_ids'][1:-1].split(', ')
+    response_boxes = [x for x in data if x.startswith('box_')]
 
     # Increase search_count counter
     breed = db.session.query(Breeds).filter(Breeds.id == breed_id).first_or_404()
     breed.search_count = breed.search_count + 1
+    breed.img_count += len(response_boxes)
 
     # Add image urls to database
-    for box in [x for x in data if x.startswith('box_')]:
+    for box in response_boxes:
         img = Images(breed_id, data[box])
         db.session.add(img)
-        # TODO: db.session.add_all()
 
     # Delete from staging
     for staging_id in img_ids:

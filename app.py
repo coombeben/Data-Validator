@@ -1,6 +1,7 @@
 import os
 import csv
 from flask import Flask, render_template, request, redirect
+from sqlalchemy import func
 
 from config import DevelopmentConfig, ProductionConfig
 from consts import INSTANCE_PATH
@@ -94,7 +95,7 @@ def handle_response():
 
 @app.route('/progress')
 def progress():
-    img_count = db.session.query(Images).count() + 20105
+    img_count, = db.session.query(func.sum(Breeds.img_count)).one()
     prop = max(min(img_count / 79800, 1), 0)
 
     target_colour = gradient(prop, ColourRGB(255, 0, 0), ColourRGB(0, 255, 0))
